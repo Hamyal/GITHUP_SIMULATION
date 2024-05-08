@@ -1,0 +1,4 @@
+﻿  hello.cpp
+C:\Users\ifaha\source\repos\github\hello.cpp(99,26): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\ifaha\source\repos\github\hello.cpp(103,28): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  github.vcxproj -> C:\Users\ifaha\source\repos\github\x64\Debug\github.exe
