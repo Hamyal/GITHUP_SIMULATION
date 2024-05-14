@@ -1,5 +1,95 @@
 # GITHUP_SIMULATION
 Welcome to giithup simulation project in data structure
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <queue>
+
+// Define treeimplmentation class
+class treeimplmentation {
+private:
+    Repository* repo;
+    std::unordered_map<std::string, treeimplmentation*> root;
+
+public:
+    // Constructor
+    treeimplmentation(Repository* r) {
+        repo = r;
+    }
+
+    // Destructor
+    ~treeimplmentation() {
+        delete repo;
+        for (auto& r : root) {
+            delete r.second;
+        }
+    }
+
+    // Method to add a child to the tree
+    treeimplmentation* addChild(const std::string& name, Repository* repo) {
+        treeimplmentation* newnode = new treeimplmentation(repo);
+        root[name] = newnode;
+        return newnode;
+    }
+
+    // Method to get the repository associated with the node
+    Repository* get_Repository() const {
+        return repo;
+    }
+
+    // Method to get the children nodes
+    std::unordered_map<std::string, treeimplmentation*>& get_node() {
+        return root;
+    }
+
+    // BFS traversal method
+    void BFS() const {
+        std::queue<treeimplmentation*> q;
+        q.push(this);
+
+        while (!q.empty()) {
+            treeimplmentation* current = q.front();
+            q.pop();
+
+            Repository* currentRepo = current->get_Repository();
+            if (currentRepo) {
+                // Do something with the current repository
+                // For example, print its name
+                std::cout << "Repository Name: " << currentRepo->getName() << std::endl;
+            }
+
+            // Enqueue children
+            for (const auto& child : current->get_node()) {
+                q.push(child.second);
+            }
+        }
+    }
+};
+
+
+
+
+
+
+
 // Define a helper function for DFS traversal of repositories
 // Helper function for DFS traversal to find repository
 Repository* DFSFindRepository(treeimplmentation* root, const string& repoName) {
