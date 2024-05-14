@@ -1,6 +1,64 @@
 # GITHUP_SIMULATION
 Welcome to giithup simulation project in data structure
 // Define a helper function for DFS traversal of repositories
+// Helper function for DFS traversal to find repository
+Repository* DFSFindRepository(treeimplmentation* root, const string& repoName) {
+    if (root->get_node().find(repoName) != root->get_node().end()) {
+        return root->get_node()[repoName]->get_Repository();
+    } else {
+        for (auto& child : root->get_node()) {
+            Repository* repo = DFSFindRepository(child.second, repoName);
+            if (repo) return repo;
+        }
+    }
+    return nullptr;
+}
+
+// Add file function with DFS
+void githupsimulation::addfileDFS(treeimplmentation* root, const string& repoName, const string& fileName) {
+    Repository* repo = DFSFindRepository(root, repoName);
+    if (repo) {
+        File newFile(fileName);
+        repo->addFile(newFile);
+        cout << "The file is added to the repository" << endl;
+        writerepo();
+    } else {
+        cout << "The repository is not found" << endl;
+    }
+}
+
+// Add file function with DFS wrapper
+void githupsimulation::addfile(const string& username, const string& repoName, const string& fileName) {
+    if (Users_REPOSIT.find(username) == Users_REPOSIT.end()) {
+        cout << "The user does not exist" << endl;
+        return;
+    }
+    treeimplmentation* root = Users_REPOSIT[username];
+    addfileDFS(root, repoName, fileName);
+}
+
+// Delete file function with DFS
+void githupsimulation::deletefileDFS(treeimplmentation* root, const string& repoName, const string& fileName) {
+    Repository* repo = DFSFindRepository(root, repoName);
+    if (repo) {
+        repo->deleteFile(fileName);
+        cout << "The file is deleted from the repository" << endl;
+        writerepo();
+    } else {
+        cout << "The repository is not found" << endl;
+    }
+}
+
+// Delete file function with DFS wrapper
+void githupsimulation::deletefile(const string& username, const string& repoName, const string& fileName) {
+    if (Users_REPOSIT.find(username) == Users_REPOSIT.end()) {
+        cout << "The user does not exist" << endl;
+        return;
+    }
+    treeimplmentation* root = Users_REPOSIT[username];
+    deletefileDFS(root, repoName, fileName);
+}
+
 void DFSRepository(treeimplmentation* root, unordered_set<string>& visited) {
     visited.insert(root->get_user());
     for (auto& child : root->get_node()) {
